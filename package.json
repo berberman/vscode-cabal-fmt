@@ -1,0 +1,61 @@
+{
+	"name": "vscode-cabal-fmt",
+	"displayName": "cabal-fmt",
+	"description": "Format .cabal using cabal-fmt",
+	"homepage": "https://github.com/berberman/vscode-cabal-fmt",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/berberman/vscode-cabal-fmt"
+	},
+	"bugs": {
+		"url": "https://github.com/berberman/vscode-cabal-fmt/issues"
+	},
+	"license": "MIT",
+	"keywords": [
+		"haskell",
+		"cabal",
+		"format"
+	],
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.51.0"
+	},
+	"categories": [
+		"Formatters"
+	],
+	"activationEvents": [
+		"onLanguage:haskell"
+	],
+	"main": "./out/extension.js",
+	"publisher": "berberman",
+	"contributes": {
+		"configuration": {
+			"title": "vscode-cabal-fmt configuration",
+			"properties": {
+				"vscode-cabal-fmt.binaryPath": {
+					"type": "string",
+					"default": "",
+					"description": "Path to cabal-fmt executable."
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"lint": "eslint src --ext ts"
+	},
+	"devDependencies": {
+		"@types/command-exists": "^1.2.0",
+		"@types/node": "^12.11.7",
+		"@types/vscode": "^1.51.0",
+		"@typescript-eslint/eslint-plugin": "^4.1.1",
+		"@typescript-eslint/parser": "^4.1.1",
+		"eslint": "^7.9.0",
+		"typescript": "^4.0.2"
+	},
+	"dependencies": {
+		"command-exists": "^1.2.9"
+	}
+}

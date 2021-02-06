@@ -24,7 +24,7 @@
 		"Formatters"
 	],
 	"activationEvents": [
-		"onLanguage:haskell"
+		"onLanguage:cabal"
 	],
 	"main": "./out/extension.js",
 	"publisher": "berberman",
@@ -32,10 +32,15 @@
 		"configuration": {
 			"title": "vscode-cabal-fmt configuration",
 			"properties": {
-				"vscode-cabal-fmt.binaryPath": {
+				"cabal-fmt.binaryPath": {
 					"type": "string",
 					"default": "",
-					"description": "Path to cabal-fmt executable."
+					"description": "Path to cabal-fmt executable\nYou can use ${HOME}, ${home}, or ~/ to represent user's home directory\nIf not set, the extension will find cabal-fmt in PATH"
+				},
+				"cabal-fmt.indent": {
+					"type": "integer",
+					"default": 2,
+					"description": "Indentation"
 				}
 			}
 		}

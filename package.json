@@ -28,6 +28,7 @@
 	],
 	"main": "./out/extension.js",
 	"publisher": "berberman",
+	"icon": "img/cabal.png",
 	"contributes": {
 		"configuration": {
 			"title": "vscode-cabal-fmt configuration",

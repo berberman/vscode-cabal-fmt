@@ -36,7 +36,7 @@
 				"cabal-fmt.binaryPath": {
 					"type": "string",
 					"default": "",
-					"description": "Path to cabal-fmt executable\nYou can use ${HOME}, ${home}, or ~/ to represent user's home directory\nIf not set, the extension will find cabal-fmt in PATH"
+					"description": "Path to cabal-fmt executable\nYou can use ${HOME}, ${home}, or ~/ to represent user's home directory.\nIf not set, the extension will find cabal-fmt in PATH."
 				},
 				"cabal-fmt.indent": {
 					"type": "integer",
@@ -54,14 +54,16 @@
 	},
 	"devDependencies": {
 		"@types/command-exists": "^1.2.0",
-		"@types/node": "^12.11.7",
-		"@types/vscode": "^1.51.0",
-		"@typescript-eslint/eslint-plugin": "^4.1.1",
-		"@typescript-eslint/parser": "^4.1.1",
-		"eslint": "^7.9.0",
-		"typescript": "^4.0.2"
+		"@types/node": "^12.20.12",
+		"@types/tmp": "^0.2.0",
+		"@types/vscode": "^1.56.0",
+		"@typescript-eslint/eslint-plugin": "^4.22.1",
+		"@typescript-eslint/parser": "^4.22.1",
+		"eslint": "^7.25.0",
+		"typescript": "^4.2.4"
 	},
 	"dependencies": {
-		"command-exists": "^1.2.9"
+		"command-exists": "^1.2.9",
+		"tmp": "^0.2.1"
 	}
 }

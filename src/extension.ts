@@ -48,32 +48,37 @@ class CabalFormatProvider implements vscode.DocumentFormattingEditProvider {
       }
       const indent = vscode.workspace.getConfiguration('cabal-fmt').indent;
       vscode.window.showInformationMessage(`Formatting ${path.basename(document.fileName)}`);
-      const tmpFile = tmp.fileSync();
-      fs.writeFileSync(tmpFile.name, document.getText());
-      const cmd = child_process.spawn(binaryPath!, ["--indent", indent, tmpFile.name]);
-      const result: Buffer[] = [];
-      const err: Buffer[] = [];
-      cmd.stdout.on('data', data => {
-        result.push(Buffer.from(data));
-      });
-      cmd.stderr.on('data', data => {
-        err.push(Buffer.from(data));
-      });
-      cmd.on('exit', _ => {
-        const r = Buffer.concat(result).toString();
-        const e = Buffer.concat(err).toString().replace(new RegExp(tmpFile.name, 'g'), path.basename(document.fileName));
-        if (r.length > 0) {
-          const range = document.validateRange(new vscode.Range(0, 0, Infinity, Infinity));
-          resolve([new vscode.TextEdit(range, r)]);
-        } else {
-          vscode.window.showErrorMessage(`cabal-fmt: ${e}`);
+      tmp.file({ prefix: ".cabal-fmt", tmpdir: path.dirname(document.fileName) }, function _tempFileCreated(tmpErr, tmpPath, _fd, cleanupCallback) {
+        if (tmpErr) { throw tmpErr; }
+        fs.writeFileSync(tmpPath, document.getText());
+        const cmd = child_process.spawn(binaryPath!, ["--indent", indent, tmpPath]);
+        const result: Buffer[] = [];
+        const err: Buffer[] = [];
+        cmd.stdout.on('data', data => {
+          result.push(Buffer.from(data));
+        });
+        cmd.stderr.on('data', data => {
+          err.push(Buffer.from(data));
+        });
+        cmd.on('exit', _ => {
+          const r = Buffer.concat(result).toString();
+          const e = Buffer.concat(err).toString().replace(new RegExp(tmpPath, 'g'), path.basename(document.fileName));
+          if (r.length > 0) {
+            const range = document.validateRange(new vscode.Range(0, 0, Infinity, Infinity));
+            resolve([new vscode.TextEdit(range, r)]);
+          } else {
+            vscode.window.showErrorMessage(`cabal-fmt: ${e}`);
+            rejects(`error: ${e}`);
+          }
+          // remove tmp file
+          cleanupCallback();
+        });
+        cmd.on('error', e => {
+          vscode.window.showErrorMessage(`Failed to call cabal-fmt: ${e}`);
           rejects(`error: ${e}`);
-        }
+        });
       });
-      cmd.on('error', e => {
-        vscode.window.showErrorMessage(`Failed to call cabal-fmt: ${e}`);
-        rejects(`error: ${e}`);
-      });
+
     });
   }
 

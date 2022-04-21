@@ -117,7 +117,11 @@ class CabalFormatProvider implements vscode.DocumentFormattingEditProvider {
       tmp.file({ prefix: ".cabal-fmt", tmpdir: path.dirname(document.fileName) }, function _tempFileCreated(tmpErr, tmpPath, _fd, cleanupCallback) {
         if (tmpErr) { throw tmpErr; }
         fs.writeFileSync(tmpPath, document.getText());
-        vscode.window.showInformationMessage(`Formatting ${path.basename(document.fileName)}`);
+
+        const formattingNotification = vscode.workspace.getConfiguration('cabal-fmt').formattingNotification;
+        if (formattingNotification) {
+          vscode.window.showInformationMessage(`Formatting ${path.basename(document.fileName)}`);
+        }
 
         cabalFmt(tmpPath, document.fileName)
           .then(r => {

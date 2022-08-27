@@ -47,6 +47,11 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Auto format `.cabal` files whenever a new `.hs` file is created, so `cabal-fmt: expand` fields are always up to date"
+				},
+				"cabal-fmt.notify": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show notification message whenever formatting is triggered"
 				}
 			}
 		}
